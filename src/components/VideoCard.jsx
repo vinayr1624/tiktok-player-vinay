@@ -9,9 +9,9 @@ function VideoCard({ video }) {
   const [showIcon, setShowIcon] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
 
-  // 🔥 Like state moved here
+  // 🔥 Like state (fixed)
   const [liked, setLiked] = useState(false);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(video.likes || 0);
 
   // 🎯 Auto play / pause
   useEffect(() => {
@@ -54,13 +54,13 @@ function VideoCard({ video }) {
     }, 1000);
   };
 
-  // ❤️ Double tap (like + animation)
+  // ❤️ Double tap (fixed count bug)
   const handleDoubleClick = () => {
     setShowHeart(true);
 
     if (!liked) {
       setLiked(true);
-      setCount(count + 1);
+      setCount((prev) => prev + 1); // ✅ FIXED
     }
 
     setTimeout(() => {
@@ -87,7 +87,7 @@ function VideoCard({ video }) {
         }}
       />
 
-      {/* 🔥 Pass state to ActionBar */}
+      {/* 🔥 Action Bar */}
       <ActionBar
         liked={liked}
         setLiked={setLiked}
@@ -95,6 +95,7 @@ function VideoCard({ video }) {
         setCount={setCount}
       />
 
+      {/* 🔥 User Info */}
       <UserInfo user={video.user} description={video.description} />
 
       {/* ▶ / ⏸ Overlay */}
