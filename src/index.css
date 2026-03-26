@@ -41,3 +41,7 @@ body {
 .action-bar small {
   font-size: 14px;
 }
+
+.action-bar div:active {
+  transform: scale(1.3);
+}
