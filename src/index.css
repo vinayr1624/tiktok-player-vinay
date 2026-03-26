@@ -37,3 +37,7 @@ body {
   font-size: 32px; /* 🔥 increased size */
   color: white;
 }
+
+.action-bar small {
+  font-size: 14px;
+}
