@@ -3,9 +3,16 @@ import ActionBar from "./ActionBar";
 
 function VideoCard({ video }) {
   const videoRef = useRef(null);
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [showIcon, setShowIcon] = useState(false);
+  const [showHeart, setShowHeart] = useState(false);
 
+  // 🔥 Like state moved here
+  const [liked, setLiked] = useState(false);
+  const [count, setCount] = useState(0);
+
+  // 🎯 Auto play / pause
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -29,6 +36,7 @@ function VideoCard({ video }) {
     };
   }, []);
 
+  // 🎯 Single tap (play/pause)
   const handleClick = () => {
     if (videoRef.current.paused) {
       videoRef.current.play();
@@ -45,8 +53,26 @@ function VideoCard({ video }) {
     }, 1000);
   };
 
+  // ❤️ Double tap (like + animation)
+  const handleDoubleClick = () => {
+    setShowHeart(true);
+
+    if (!liked) {
+      setLiked(true);
+      setCount(count + 1);
+    }
+
+    setTimeout(() => {
+      setShowHeart(false);
+    }, 800);
+  };
+
   return (
-    <div className="video" onClick={handleClick}>
+    <div
+      className="video"
+      onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
+    >
       <video
         ref={videoRef}
         src={video.url}
@@ -60,8 +86,13 @@ function VideoCard({ video }) {
         }}
       />
 
-      {/* ✅ ADD THIS */}
-      <ActionBar />
+      {/* 🔥 Pass state to ActionBar */}
+      <ActionBar
+        liked={liked}
+        setLiked={setLiked}
+        count={count}
+        setCount={setCount}
+      />
 
       {/* ▶ / ⏸ Overlay */}
       {showIcon && (
@@ -69,6 +100,9 @@ function VideoCard({ video }) {
           {isPlaying ? "⏸" : "▶"}
         </div>
       )}
+
+      {/* ❤️ Big Heart */}
+      {showHeart && <div className="big-heart">❤️</div>}
     </div>
   );
 }

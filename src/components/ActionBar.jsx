@@ -1,9 +1,4 @@
-import { useState } from "react";
-
-function ActionBar() {
-  const [liked, setLiked] = useState(false);
-  const [count, setCount] = useState(0);
-
+function ActionBar({ liked, setLiked, count, setCount }) {
   const handleLike = () => {
     if (liked) {
       setCount(count - 1);
