@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ActionBar from "./ActionBar";
+import UserInfo from "./UserInfo";
 
 function VideoCard({ video }) {
   const videoRef = useRef(null);
@@ -93,6 +94,8 @@ function VideoCard({ video }) {
         count={count}
         setCount={setCount}
       />
+
+      <UserInfo user={video.user} description={video.description} />
 
       {/* ▶ / ⏸ Overlay */}
       {showIcon && (
