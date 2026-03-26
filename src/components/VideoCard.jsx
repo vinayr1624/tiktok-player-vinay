@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import ActionBar from "./ActionBar";
 
 function VideoCard({ video }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showIcon, setShowIcon] = useState(false);
 
-  // 🎯 Auto play / pause
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -29,7 +29,6 @@ function VideoCard({ video }) {
     };
   }, []);
 
-  // 🎯 Handle tap
   const handleClick = () => {
     if (videoRef.current.paused) {
       videoRef.current.play();
@@ -60,6 +59,9 @@ function VideoCard({ video }) {
           objectFit: "cover",
         }}
       />
+
+      {/* ✅ ADD THIS */}
+      <ActionBar />
 
       {/* ▶ / ⏸ Overlay */}
       {showIcon && (
