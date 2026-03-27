@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ActionBar from "./ActionBar";
 import UserInfo from "./UserInfo";
+import CommentModal from "./CommentModal";
 
 function VideoCard({ video }) {
   const videoRef = useRef(null);
@@ -9,20 +10,28 @@ function VideoCard({ video }) {
   const [showIcon, setShowIcon] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
 
-  // 🔥 Like state
+  // ❤️ Like state
   const [liked, setLiked] = useState(false);
   const [count, setCount] = useState(video.likes || 0);
 
-  // 🔊 Sound state
+  // 🔊 Sound
   const [muted, setMuted] = useState(true);
 
-  // 📊 Progress state
+  // 📊 Progress
   const [progress, setProgress] = useState(0);
+
+  // 💬 Comment modal
+  const [showComments, setShowComments] = useState(false);
 
   // 🎯 Auto play / pause
   useEffect(() => {
+    const videoElement = videoRef.current;
+    if (!videoElement) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
+        if (!videoRef.current) return;
+
         if (entry.isIntersecting) {
           videoRef.current.play();
           setIsPlaying(true);
@@ -34,17 +43,17 @@ function VideoCard({ video }) {
       { threshold: 0.8 }
     );
 
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
-    }
+    observer.observe(videoElement);
 
     return () => {
-      if (videoRef.current) observer.unobserve(videoRef.current);
+      observer.unobserve(videoElement);
     };
   }, []);
 
-  // 🎯 Tap (play/pause)
+  // ▶ Tap play/pause
   const handleClick = () => {
+    if (!videoRef.current) return;
+
     if (videoRef.current.paused) {
       videoRef.current.play();
       setIsPlaying(true);
@@ -71,7 +80,7 @@ function VideoCard({ video }) {
 
   // 🔊 Sound toggle
   const toggleSound = (e) => {
-    e.stopPropagation(); // prevent play/pause
+    e.stopPropagation();
     setMuted((prev) => !prev);
   };
 
@@ -88,6 +97,8 @@ function VideoCard({ video }) {
         muted={muted}
         playsInline
         onTimeUpdate={() => {
+          if (!videoRef.current) return;
+
           const current = videoRef.current.currentTime;
           const duration = videoRef.current.duration || 1;
           setProgress((current / duration) * 100);
@@ -105,6 +116,7 @@ function VideoCard({ video }) {
         setLiked={setLiked}
         count={count}
         setCount={setCount}
+        setShowComments={setShowComments}
       />
 
       {/* 🔥 User Info */}
@@ -132,6 +144,12 @@ function VideoCard({ video }) {
           style={{ width: `${progress}%` }}
         ></div>
       </div>
+
+      {/* 💬 Comment Modal */}
+      <CommentModal
+        isOpen={showComments}
+        onClose={() => setShowComments(false)}
+      />
     </div>
   );
 }
