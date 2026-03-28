@@ -1,16 +1,77 @@
-# React + Vite
+# 🎬 TikTok Clone (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern TikTok-style short video application built using React.
+Users can scroll through videos, like, comment, and upload their own content.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Features
 
-## React Compiler
+* 🎥 Vertical video feed (TikTok style)
+* ❤️ Double tap to like
+* 👍 Like button with live count
+* 💬 Comment system (add + view comments)
+* 🔁 Share & save UI
+* 📊 Video progress bar
+* 🔊 Mute / unmute sound
+* ➕ Upload video from local device
+* ♾️ Infinite scrolling (auto load videos)
+* 👤 Profile info with follow button
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* React (Hooks)
+* Vite
+* CSS (Custom styling)
+* JavaScript (ES6+)
+
+---
+
+## 📂 Project Structure
+
+```
+src/
+ ├── components/
+ │    ├── VideoCard.jsx
+ │    ├── ActionBar.jsx
+ │    ├── UserInfo.jsx
+ │    ├── CommentModal.jsx
+ │    └── Upload.jsx
+ ├── data/
+ │    └── videos.js
+ ├── App.jsx
+ └── main.jsx
+```
+
+---
+
+## ⚡ Getting Started
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
+## 💡 Future Improvements
+
+* 🔥 Recommendation system (AI-based feed)
+* 🌐 Backend integration (Node.js / Firebase)
+* 👥 User authentication
+* 📡 Real-time comments
+* ☁️ Cloud video upload (AWS / Cloudinary)
+
+---
+
+## 👨‍💻 Author
+
+Vinay R
+
+---
+
+## ⭐ If you like this project
+
+Give it a ⭐ on GitHub!
