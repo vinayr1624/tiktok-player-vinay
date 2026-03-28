@@ -1,7 +1,15 @@
-function UserInfo({ user, description }) {
+function UserInfo({ user, description, avatar }) {
   return (
     <div className="user-info">
-      <h4>@{user}</h4>
+      
+      <div className="user-row">
+        <img src={avatar} />
+
+        <h4>@{user}</h4>
+
+        <button className="follow-btn">Follow</button>
+      </div>
+
       <p>{description}</p>
     </div>
   );

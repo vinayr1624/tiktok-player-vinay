@@ -85,12 +85,12 @@ html, body {
 /* Action bar */
 .action-bar {
   position: absolute;
-  right: 40px;
-  bottom: 20px;
+  right: 15px;   /* 🔥 adjusted */
+  bottom: 90px;  /* 🔥 moved up */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 22px;
   color: white;
 }
 
@@ -118,13 +118,13 @@ html, body {
   margin-top: 4px;
 }
 
-/* 🔥 FIXED USER INFO (CLEAN ALIGNMENT) */
+/* 🔥 USER INFO (FIXED LAYOUT) */
 .user-info {
   position: absolute;
-  bottom: 20px;
+  bottom: 25px;
   left: 15px;
   color: white;
-  max-width: 75%;
+  max-width: 85%;
   z-index: 5;
 
   display: flex;
@@ -134,17 +134,49 @@ html, body {
   text-shadow: 0 2px 8px rgba(0,0,0,0.8);
 }
 
+/* 🔥 USER ROW FIX */
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* ✅ PROFILE IMAGE */
+.user-row img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid white; /* 🔥 nicer UI */
+}
+
 /* Username */
-.user-info h4 {
+.user-row h4 {
   margin: 0;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
+  white-space: nowrap; /* 🔥 prevents breaking */
+}
+
+/* Follow button */
+.follow-btn {
+  margin-left: 10px;
+  padding: 5px 12px;
+  border: none;
+  border-radius: 20px;
+  background: #ff2c55;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 /* Caption */
 .user-info p {
   margin: 0;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1.4;
   opacity: 0.95;
 
@@ -154,10 +186,10 @@ html, body {
   overflow: hidden;
 }
 
-/* 🔊 SOUND BUTTON (FIXED POSITION) */
+/* 🔊 SOUND BUTTON */
 .sound-btn {
   position: absolute;
-  bottom: 100px; /* 🔥 above text */
+  bottom: 130px; /* 🔥 adjusted */
   left: 15px;
   font-size: 24px;
   color: white;

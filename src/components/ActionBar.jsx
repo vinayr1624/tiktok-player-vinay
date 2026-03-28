@@ -1,22 +1,28 @@
-function ActionBar({ liked, setLiked, count, setCount, setShowComments }) {
-
+function ActionBar({
+  liked,
+  setLiked,
+  count,
+  setCount,
+  setShowComments,
+  comments,
+  shares,
+}) {
   const handleLike = (e) => {
-    e.stopPropagation(); // ✅ prevent video click
+    e.stopPropagation();
 
-    setLiked((prevLiked) => {
-      if (prevLiked) {
-        setCount((prev) => Math.max(prev - 1, 0)); // ✅ avoid negative
-      } else {
-        setCount((prev) => prev + 1);
-      }
-      return !prevLiked;
-    });
+    if (liked) {
+      setCount((prev) => Math.max(prev - 1, 0));
+    } else {
+      setCount((prev) => prev + 1);
+    }
+
+    setLiked(!liked);
   };
 
   return (
     <div className="action-bar">
       {/* ❤️ LIKE */}
-      <div onClick={handleLike} style={{ textAlign: "center" }}>
+      <div onClick={handleLike}>
         <div style={{ color: liked ? "red" : "white" }}>❤️</div>
         <small>{count}</small>
       </div>
@@ -25,22 +31,22 @@ function ActionBar({ liked, setLiked, count, setCount, setShowComments }) {
       <div
         onClick={(e) => {
           e.stopPropagation();
-          if (setShowComments) {
-            setShowComments(true); // ✅ safe call
-          }
+          setShowComments(true);
         }}
       >
-        💬
+        <div>💬</div>
+        <small>{comments || 0}</small> {/* ✅ NEW */}
       </div>
 
       {/* 🔁 SHARE */}
       <div onClick={(e) => e.stopPropagation()}>
-        🔁
+        <div>🔁</div>
+        <small>{shares || 0}</small> {/* ✅ NEW */}
       </div>
 
       {/* 🔖 SAVE */}
       <div onClick={(e) => e.stopPropagation()}>
-        🔖
+        <div>🔖</div>
       </div>
     </div>
   );

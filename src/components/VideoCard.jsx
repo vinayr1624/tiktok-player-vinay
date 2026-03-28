@@ -10,20 +10,13 @@ function VideoCard({ video }) {
   const [showIcon, setShowIcon] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
 
-  // ❤️ Like state
   const [liked, setLiked] = useState(false);
   const [count, setCount] = useState(video.likes || 0);
 
-  // 🔊 Sound
   const [muted, setMuted] = useState(true);
-
-  // 📊 Progress
   const [progress, setProgress] = useState(0);
-
-  // 💬 Comment modal
   const [showComments, setShowComments] = useState(false);
 
-  // 🎯 Auto play / pause
   useEffect(() => {
     const videoElement = videoRef.current;
     if (!videoElement) return;
@@ -44,13 +37,9 @@ function VideoCard({ video }) {
     );
 
     observer.observe(videoElement);
-
-    return () => {
-      observer.unobserve(videoElement);
-    };
+    return () => observer.unobserve(videoElement);
   }, []);
 
-  // ▶ Tap play/pause
   const handleClick = () => {
     if (!videoRef.current) return;
 
@@ -66,7 +55,6 @@ function VideoCard({ video }) {
     setTimeout(() => setShowIcon(false), 1000);
   };
 
-  // ❤️ Double tap
   const handleDoubleClick = () => {
     setShowHeart(true);
 
@@ -78,7 +66,6 @@ function VideoCard({ video }) {
     setTimeout(() => setShowHeart(false), 800);
   };
 
-  // 🔊 Sound toggle
   const toggleSound = (e) => {
     e.stopPropagation();
     setMuted((prev) => !prev);
@@ -110,34 +97,35 @@ function VideoCard({ video }) {
         }}
       />
 
-      {/* 🔥 Action Bar */}
+      {/* 🔥 UPDATED ACTION BAR */}
       <ActionBar
         liked={liked}
         setLiked={setLiked}
         count={count}
         setCount={setCount}
         setShowComments={setShowComments}
+        comments={video.comments}   // ✅ ADD
+        shares={video.shares}       // ✅ ADD
       />
 
-      {/* 🔥 User Info */}
-      <UserInfo user={video.user} description={video.description} />
+      <UserInfo
+  user={video.user}
+  description={video.description}
+  avatar={video.avatar}   // ✅ THIS IS IMPORTANT
+/>
 
-      {/* 🔊 Sound Button */}
       <div className="sound-btn" onClick={toggleSound}>
         {muted ? "🔇" : "🔊"}
       </div>
 
-      {/* ▶ / ⏸ Overlay */}
       {showIcon && (
         <div className="overlay">
           {isPlaying ? "⏸" : "▶"}
         </div>
       )}
 
-      {/* ❤️ Big Heart */}
       {showHeart && <div className="big-heart">❤️</div>}
 
-      {/* 📊 Progress Bar */}
       <div className="progress-bar">
         <div
           className="progress"
@@ -145,7 +133,6 @@ function VideoCard({ video }) {
         ></div>
       </div>
 
-      {/* 💬 Comment Modal */}
       <CommentModal
         isOpen={showComments}
         onClose={() => setShowComments(false)}
