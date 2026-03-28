@@ -17,6 +17,15 @@ function VideoCard({ video }) {
   const [progress, setProgress] = useState(0);
   const [showComments, setShowComments] = useState(false);
 
+  // ✅ FIXED (LOAD INITIAL COMMENTS)
+  const [commentsList, setCommentsList] = useState(
+    video.commentsData || []
+  );
+
+  const [commentCount, setCommentCount] = useState(
+    video.comments || 0
+  );
+
   useEffect(() => {
     const videoElement = videoRef.current;
     if (!videoElement) return;
@@ -26,7 +35,7 @@ function VideoCard({ video }) {
         if (!videoRef.current) return;
 
         if (entry.isIntersecting) {
-          videoRef.current.play();
+          videoRef.current.play().catch(() => {});
           setIsPlaying(true);
         } else {
           videoRef.current.pause();
@@ -44,7 +53,7 @@ function VideoCard({ video }) {
     if (!videoRef.current) return;
 
     if (videoRef.current.paused) {
-      videoRef.current.play();
+      videoRef.current.play().catch(() => {});
       setIsPlaying(true);
     } else {
       videoRef.current.pause();
@@ -58,10 +67,13 @@ function VideoCard({ video }) {
   const handleDoubleClick = () => {
     setShowHeart(true);
 
-    if (!liked) {
-      setLiked(true);
-      setCount((prev) => prev + 1);
-    }
+    setLiked((prevLiked) => {
+      if (!prevLiked) {
+        setCount((prev) => prev + 1);
+        return true;
+      }
+      return prevLiked;
+    });
 
     setTimeout(() => setShowHeart(false), 800);
   };
@@ -97,22 +109,21 @@ function VideoCard({ video }) {
         }}
       />
 
-      {/* 🔥 UPDATED ACTION BAR */}
       <ActionBar
         liked={liked}
         setLiked={setLiked}
         count={count}
         setCount={setCount}
         setShowComments={setShowComments}
-        comments={video.comments}   // ✅ ADD
-        shares={video.shares}       // ✅ ADD
+        comments={commentCount}   // ✅ FIXED
+        shares={video.shares}
       />
 
       <UserInfo
-  user={video.user}
-  description={video.description}
-  avatar={video.avatar}   // ✅ THIS IS IMPORTANT
-/>
+        user={video.user}
+        description={video.description}
+        avatar={video.avatar}
+      />
 
       <div className="sound-btn" onClick={toggleSound}>
         {muted ? "🔇" : "🔊"}
@@ -136,6 +147,9 @@ function VideoCard({ video }) {
       <CommentModal
         isOpen={showComments}
         onClose={() => setShowComments(false)}
+        comments={commentsList}              // ✅ FIXED
+        setComments={setCommentsList}
+        setCommentCount={setCommentCount}
       />
     </div>
   );
