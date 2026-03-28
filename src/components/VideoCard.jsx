@@ -72,24 +72,25 @@ function VideoCard({ video }) {
 
   // ✅ DOUBLE CLICK (like)
   const handleDoubleClick = (e) => {
-    e.stopPropagation();
+  e.stopPropagation();
 
-    if (clickTimeout.current) {
-      clearTimeout(clickTimeout.current);
-      clickTimeout.current = null;
-    }
+  if (clickTimeout.current) {
+    clearTimeout(clickTimeout.current);
+    clickTimeout.current = null;
+  }
 
-    setShowHeart(true);
+  setShowHeart(true);
 
-    setLiked((prevLiked) => {
-      if (prevLiked) return prevLiked;
-
+  setLiked((prevLiked) => {
+    if (!prevLiked) {
       setCount((prev) => prev + 1);
       return true;
-    });
+    }
+    return prevLiked;
+  });
 
-    setTimeout(() => setShowHeart(false), 800);
-  };
+  setTimeout(() => setShowHeart(false), 800);
+};
 
   const toggleSound = (e) => {
     e.stopPropagation();

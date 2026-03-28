@@ -23,9 +23,16 @@ function ActionBar({
     <div className="action-bar">
       {/* ❤️ LIKE */}
       <div onClick={handleLike}>
-        <div style={{ color: liked ? "red" : "white" }}>❤️</div>
-        <small>{count}</small>
-      </div>
+  <div
+    style={{
+      color: liked ? "#ff2c55" : "#ffffff", // 🔥 FIXED
+      transition: "0.2s",
+    }}
+  >
+    ❤️
+  </div>
+  <small>{count}</small>
+</div>
 
       {/* 💬 COMMENT */}
       <div
