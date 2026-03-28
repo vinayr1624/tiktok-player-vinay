@@ -5,6 +5,7 @@ import CommentModal from "./CommentModal";
 
 function VideoCard({ video }) {
   const videoRef = useRef(null);
+  const clickTimeout = useRef(null); // ✅ important
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [showIcon, setShowIcon] = useState(false);
@@ -17,11 +18,9 @@ function VideoCard({ video }) {
   const [progress, setProgress] = useState(0);
   const [showComments, setShowComments] = useState(false);
 
-  // ✅ FIXED (LOAD INITIAL COMMENTS)
   const [commentsList, setCommentsList] = useState(
     video.commentsData || []
   );
-
   const [commentCount, setCommentCount] = useState(
     video.comments || 0
   );
@@ -49,30 +48,44 @@ function VideoCard({ video }) {
     return () => observer.unobserve(videoElement);
   }, []);
 
+  // ✅ SINGLE CLICK (play/pause)
   const handleClick = () => {
-    if (!videoRef.current) return;
+    if (clickTimeout.current) return;
 
-    if (videoRef.current.paused) {
-      videoRef.current.play().catch(() => {});
-      setIsPlaying(true);
-    } else {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    }
+    clickTimeout.current = setTimeout(() => {
+      if (!videoRef.current) return;
 
-    setShowIcon(true);
-    setTimeout(() => setShowIcon(false), 1000);
+      if (videoRef.current.paused) {
+        videoRef.current.play().catch(() => {});
+        setIsPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+
+      setShowIcon(true);
+      setTimeout(() => setShowIcon(false), 1000);
+
+      clickTimeout.current = null;
+    }, 250);
   };
 
-  const handleDoubleClick = () => {
+  // ✅ DOUBLE CLICK (like)
+  const handleDoubleClick = (e) => {
+    e.stopPropagation();
+
+    if (clickTimeout.current) {
+      clearTimeout(clickTimeout.current);
+      clickTimeout.current = null;
+    }
+
     setShowHeart(true);
 
     setLiked((prevLiked) => {
-      if (!prevLiked) {
-        setCount((prev) => prev + 1);
-        return true;
-      }
-      return prevLiked;
+      if (prevLiked) return prevLiked;
+
+      setCount((prev) => prev + 1);
+      return true;
     });
 
     setTimeout(() => setShowHeart(false), 800);
@@ -115,7 +128,7 @@ function VideoCard({ video }) {
         count={count}
         setCount={setCount}
         setShowComments={setShowComments}
-        comments={commentCount}   // ✅ FIXED
+        comments={commentCount}
         shares={video.shares}
       />
 
@@ -147,7 +160,7 @@ function VideoCard({ video }) {
       <CommentModal
         isOpen={showComments}
         onClose={() => setShowComments(false)}
-        comments={commentsList}              // ✅ FIXED
+        comments={commentsList}
         setComments={setCommentsList}
         setCommentCount={setCommentCount}
       />
