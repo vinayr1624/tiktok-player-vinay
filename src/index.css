@@ -239,3 +239,34 @@ html, body {
   padding: 20px;
   border-radius: 15px 15px 0 0;
 }
+
+/* 🔥 Bottom center + button */
+.upload-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 60px;
+  height: 60px;
+  background: white;
+  color: black;
+
+  font-size: 36px;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 15px;
+  cursor: pointer;
+  z-index: 9999;
+
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+/* 🔥 Hover effect */
+.upload-btn:hover {
+  transform: translateX(-50%) scale(1.1);
+}

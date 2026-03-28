@@ -1,21 +1,27 @@
 import { useState } from "react";
 import VideoCard from "./components/VideoCard";
+import Upload from "./components/Upload";
 import videosData from "./data/videos";
 
 function App() {
   const [videos, setVideos] = useState(videosData);
 
-  // 🔥 LOAD MORE VIDEOS
+  // 🔥 ADD NEW VIDEO
+  const addVideo = (video) => {
+    setVideos((prev) => [video, ...prev]); // add to top
+  };
+
+  // 🔥 LOAD MORE (infinite scroll)
   const loadMoreVideos = () => {
     const moreVideos = videosData.map((v) => ({
       ...v,
-      id: v.id + "_" + Math.random(), // unique id
+      id: v.id + "_" + Math.random(),
     }));
 
     setVideos((prev) => [...prev, ...moreVideos]);
   };
 
-  // 🔥 SCROLL HANDLER (IMPORTANT)
+  // 🔥 SCROLL
   const handleScroll = (e) => {
     const target = e.target;
 
@@ -28,11 +34,17 @@ function App() {
   };
 
   return (
-    <div className="container" onScroll={handleScroll}>
-      {videos.map((video) => (
-        <VideoCard key={video.id} video={video} />
-      ))}
-    </div>
+    <>
+      {/* 🔥 UPLOAD BUTTON */}
+      <Upload addVideo={addVideo} />
+
+      {/* 🔥 FEED */}
+      <div className="container" onScroll={handleScroll}>
+        {videos.map((video) => (
+          <VideoCard key={video.id} video={video} />
+        ))}
+      </div>
+    </>
   );
 }
 
